@@ -13,7 +13,7 @@
       justify-content: center;
       align-items: center;
       font-family: Arial, Helvetica, sans-serif;
-      background: url('background.jpeg') no-repeat center center/cover;
+      background: url('background.jpg') no-repeat center center/cover;
       overflow: hidden;
     }
 
@@ -90,13 +90,41 @@
     const yesBtn = document.getElementById('yesBtn');
     const message = document.getElementById('loveMessage');
 
-    // Make NO button run away on hover
-    noBtn.addEventListener('mouseover', () => {
-      const x = Math.random() * (window.innerWidth - 100);
-      const y = Math.random() * (window.innerHeight - 50);
+    // Function to move NO button randomly within viewport
+    function moveNoButton() {
+      const btnWidth = noBtn.offsetWidth;
+      const btnHeight = noBtn.offsetHeight;
 
+      const maxX = window.innerWidth - btnWidth - 20;
+      const maxY = window.innerHeight - btnHeight - 20;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.position = 'fixed';
       noBtn.style.left = `${x}px`;
       noBtn.style.top = `${y}px`;
+
+      // Optional fun scale effect
+      noBtn.style.transform = 'scale(1.1)';
+      setTimeout(() => {
+        noBtn.style.transform = 'scale(1)';
+      }, 150);
+    }
+
+    // Desktop hover
+    noBtn.addEventListener('mouseover', moveNoButton);
+
+    // Mobile touch support
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    // Extra safety: if clicked directly
+    noBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      moveNoButton();
     });
 
     // YES button click action
@@ -106,3 +134,4 @@
   </script>
 </body>
 </html>
+
